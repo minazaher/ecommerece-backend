@@ -31,4 +31,7 @@ public class Wishlist {
     )
     private Set<Product> products;
 
+    public Wishlist(User user) {
+        this.user = user;
+    }
 }

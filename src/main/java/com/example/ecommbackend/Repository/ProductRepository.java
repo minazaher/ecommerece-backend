@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    Product findProductById(@Param(("id")) Long id);
+    Product findProductById(@Param(("id")) int id);
 
     List<Product> findByCategory(@Param("categoryName") String categoryName);
 
@@ -32,5 +32,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     @Query("SELECT p FROM products p ORDER BY p.id")
     List<Product> findProductsByPage(Pageable pageable);
+
 
 }

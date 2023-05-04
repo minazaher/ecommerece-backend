@@ -27,4 +27,16 @@ public class ProductService {
     public Product saveProduct(Product product) {
         return productRepository.save(product);
     }
+
+    public void consumeProduct(Product product) {
+        int currentStock = product.getStock();
+        if(currentStock == 0){
+            throw new IllegalStateException("Product out of stock");
+        }
+        product.setStock(product.getStock()-1);
+        productRepository.save(product);
+    }
+    public Product getProductsById(int productId) {
+        return productRepository.findProductById(productId);
+    }
 }

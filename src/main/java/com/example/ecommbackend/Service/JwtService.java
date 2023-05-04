@@ -1,10 +1,14 @@
 package com.example.ecommbackend.Service;
 
+import com.example.ecommbackend.Model.User;
+import com.example.ecommbackend.Repository.UserRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -15,10 +19,11 @@ import java.util.Map;
 import java.util.function.Function;
 
 @Service
+@RequiredArgsConstructor
 public class JwtService {
 
     private final static String SECRET_KEY = "5368566D597133743677397A24432646294A404E635266556A576E5A72347537";
-
+    private final UserRepository userRepository;
     public String generateToken(UserDetails user) {
         return generateToken(new HashMap<>(), user);
     }
@@ -48,6 +53,20 @@ public class JwtService {
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public User getUser(HttpServletRequest request) {
+        String token = extractTokenFromHeader(request);
+        User user = userRepository.findUserByEmail(extractUsername(token));
+        return user;
+    }
+
+    public String extractTokenFromHeader(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {

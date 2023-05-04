@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface WishlistRepository extends JpaRepository<Wishlist, Integer> {
-    @Query("select w from Wishlist w where w.user =:userid")
+    @Query("select w from Wishlist w where w.user.id =:userid")
     Optional<Wishlist> findByUser(int userid);
 
 }
