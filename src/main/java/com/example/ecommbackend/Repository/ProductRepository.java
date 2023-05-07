@@ -18,17 +18,8 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
 
     List<Product> findByBrand(@Param("brandName") String brandName);
 
-    @Query("select p from products p order by p.price DESC ")
-    List<Product> OrderByPriceDesc();
-
     @Query("SELECT p FROM products p")
     List<Product> findAllProducts();
-
-    @Query(value = "Select DISTINCT category from products")
-    List<String> findCategories();
-
-    @Query("Select DISTINCT brand from products")
-    List<String> findBrands();
 
     @Query("SELECT p FROM products p ORDER BY p.id")
     List<Product> findProductsByPage(Pageable pageable);

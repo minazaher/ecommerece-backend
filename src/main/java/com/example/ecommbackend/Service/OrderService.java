@@ -14,7 +14,6 @@ import java.util.Set;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final ProductService productService;
-
     public Order createOrderForUser(int userId, Set<Product> cart){
         Order order = new Order();
         int orderPrice = 0;
@@ -30,9 +29,8 @@ public class OrderService {
         saveOrder(order);
         return order;
     }
-
     public Order findOrderById(Long id){
-        return orderRepository.getOrderById(id);
+        return orderRepository.findOrderById(id);
     }
     public void saveOrder(Order order){
         orderRepository.save(order);
@@ -40,6 +38,8 @@ public class OrderService {
     public List<Order> findAllOrders(){
         return orderRepository.findAllWithProducts();
     }
-
+    public List<Order> findOrderByUserId(Long id) {
+        return orderRepository.findOrdersByUserId(id);
+    }
 }
 

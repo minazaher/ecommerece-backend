@@ -22,7 +22,7 @@ public class WishlistService {
         User user = jwtService.getUser(request);
         System.out.println(user);
         Wishlist wishlist =
-                wishlistRepository.findByUser(user.getId()).orElse(new Wishlist(user));
+                wishlistRepository.findByUserId(user.getId()).orElse(new Wishlist(user));
         return wishlist;
     }
 
