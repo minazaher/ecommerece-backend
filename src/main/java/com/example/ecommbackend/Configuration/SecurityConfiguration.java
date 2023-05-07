@@ -24,7 +24,6 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfiguration {
     private final JwtAuthenticationFilter authenticationFilter;
     private final AuthenticationProvider authenticationProvider;
-    private final UserDetailsService userDetailsService;
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
@@ -33,7 +32,7 @@ public class SecurityConfiguration {
                 .and()
                 .authenticationProvider(authenticationProvider)
                 .sessionManagement()
-                .sessionCreationPolicy(ALWAYS)
+                .sessionCreationPolicy(STATELESS)
                 .and()
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
 

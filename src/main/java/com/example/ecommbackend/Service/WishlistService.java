@@ -23,7 +23,6 @@ public class WishlistService {
         System.out.println(user);
         Wishlist wishlist =
                 wishlistRepository.findByUser(user.getId()).orElse(new Wishlist(user));
-        wishlistRepository.save(wishlist);
         return wishlist;
     }
 

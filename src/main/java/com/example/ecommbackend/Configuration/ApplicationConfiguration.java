@@ -20,7 +20,6 @@ import org.springframework.web.client.RestTemplate;
 public class ApplicationConfiguration {
 
     private final UserRepository userRepository;
-    private final JdbcTemplate jdbcTemplate;
 
     @Bean
     public UserDetailsService userDetailsService() {

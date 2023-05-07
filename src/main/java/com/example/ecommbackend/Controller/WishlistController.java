@@ -16,7 +16,7 @@ public class WishlistController {
 
     private final WishlistService wishlistService;
 
-    @PostMapping("/get")
+    @GetMapping("/get")
     public Wishlist create(HttpServletRequest request) {
         return wishlistService.getUserWishlist(request);
     }
