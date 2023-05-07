@@ -21,7 +21,7 @@ public class CartController {
        return cartService.createCart(session, request);
     }
 
-    @PostMapping("/addProduct")
+    @PutMapping("/addProduct")
     public ResponseEntity<Set<Product>> addProductToCart(HttpServletRequest request,
                                                          @RequestParam("productId") int productId) {
         return cartService.addProductToCart(request, productId);
@@ -33,7 +33,7 @@ public class CartController {
         return ResponseEntity.ok(cart);
     }
 
-    @GetMapping("/confirm")
+    @PostMapping("/confirm")
     public ResponseEntity<String> confirmCart(HttpSession session) {
         return cartService.confirmOrder(session);
     }

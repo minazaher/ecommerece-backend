@@ -4,6 +4,7 @@ import com.example.ecommbackend.Model.Product;
 import com.example.ecommbackend.Service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -23,7 +24,7 @@ public class ProductController {
         return productService.getAllProducts();
     }
 
-    @PostMapping("/Admin/addProduct")
+    @PostMapping("/admin/addProduct")
     public ResponseEntity<String> addProduct(@RequestBody Product product){
         productService.saveProduct(product);
         return ResponseEntity.ok("Product Added!");

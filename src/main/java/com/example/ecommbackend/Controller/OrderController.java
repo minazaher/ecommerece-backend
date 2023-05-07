@@ -22,11 +22,11 @@ public class OrderController {
         return orderService.findOrderById(id);
     }
 
-    @GetMapping
+    @GetMapping("/user")
     public List<Order> getOrderByUserId(@RequestParam(name = "userId", required = false)  Long id){
         return orderService.findOrderByUserId(id);
     }
-    @RequestMapping("/all")
+    @GetMapping("/all")
     public List<Order> getAllOrders(){
         return orderService.findAllOrders();
     }

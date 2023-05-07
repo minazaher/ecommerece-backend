@@ -30,15 +30,7 @@ public class JwtService {
         return generateToken(new HashMap<>(), user);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails user) {
-        return Jwts
-                .builder()
-                .setClaims(extraClaims)
-                .setSubject(user.getUsername())
-                .setIssuedAt(CURRENT_TIME)
-                .setExpiration(EXPIRATION_TIME)
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
-    }
+
 
     public boolean isTokenValid(String token, UserDetails user) {
         final String username = extractUsername(token);
@@ -69,6 +61,15 @@ public class JwtService {
             return bearerToken.substring(7);
         }
         return null;
+    }
+    public String generateToken(Map<String, Object> extraClaims, UserDetails user) {
+        return Jwts
+                .builder()
+                .setClaims(extraClaims)
+                .setSubject(user.getUsername())
+                .setIssuedAt(CURRENT_TIME)
+                .setExpiration(EXPIRATION_TIME)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
