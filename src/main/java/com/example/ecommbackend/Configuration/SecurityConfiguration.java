@@ -1,6 +1,7 @@
 package com.example.ecommbackend.Configuration;
 
 
+import com.example.ecommbackend.Model.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,8 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeHttpRequests()
+                .requestMatchers("/admin/**").hasAnyAuthority("ADMIN")
+                .requestMatchers("/cart/**").authenticated()
                 .anyRequest().permitAll()
                 .and()
                 .authenticationProvider(authenticationProvider)
