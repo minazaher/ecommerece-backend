@@ -3,6 +3,7 @@ package com.example.ecommbackend.Service;
 import com.example.ecommbackend.Model.Product;
 import com.example.ecommbackend.Repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +17,9 @@ public class ProductService {
         return productRepository.findAllProducts();
     }
 
+    public List<Product> getProductsPage(int page) {
+        return productRepository.findProductsByPage(PageRequest.of(page-1, 9));
+    }
     public List<Product> getProductsByCategory(String category) {
         return productRepository.findByCategory(category);
     }
