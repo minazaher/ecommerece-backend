@@ -3,16 +3,17 @@ package com.example.ecommbackend.Model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
+@Builder
 @Entity(name = "orders")
 public class Order {
     @Id
@@ -27,5 +28,7 @@ public class Order {
     )
     private Set<Product> products = new HashSet<>();
     private int price;
-
+    public void addProduct(Product product) {
+        products.add(product);
+    }
 }

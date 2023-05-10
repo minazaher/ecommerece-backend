@@ -14,15 +14,14 @@ import java.util.List;
 @RequiredArgsConstructor
 public class OrderController {
     private final OrderService orderService;
-    private final OrderRepository orderRepository;
 
     @GetMapping("/orders")
-    public Order getOrderById(@RequestParam(name = "orderId", required = false)  Long id){
+    public Order getOrderById(@RequestParam(name = "orderId", required = true)  int id){
         return orderService.findOrderById(id);
     }
     @GetMapping("/orders/user")
-    public List<Order> getOrderByUserId(@RequestParam(name = "userId", required = false)  Long id){
-        return orderService.findOrderByUserId(id);
+    public List<Order> getOrderByUserId(@RequestParam(name = "userId", required = false)  int id){
+        return orderService.findOrdersByUserId(id);
     }
     @GetMapping("/admin/orders/all")
     public List<Order> getAllOrders(){
@@ -30,7 +29,7 @@ public class OrderController {
     }
     @PostMapping("/orders/save")
     public void saveOrder(@RequestBody Order order){
-        orderRepository.save(order);
+        orderService.saveOrder(order);
     }
 }
 

@@ -3,6 +3,7 @@ package com.example.ecommbackend.Controller;
 import com.example.ecommbackend.Model.Product;
 import com.example.ecommbackend.Service.ProductService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -17,7 +18,6 @@ public class ProductController {
     public List<Product> getAllProducts() {
         return productService.getAllProducts();
     }
-
     @GetMapping("/products")
     public List<Product> getProductsPage(@RequestParam(name = "page", defaultValue = "1")int page){
         return productService.getProductsPage(page);

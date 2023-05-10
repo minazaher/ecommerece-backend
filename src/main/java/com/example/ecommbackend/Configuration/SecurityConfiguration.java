@@ -1,9 +1,7 @@
 package com.example.ecommbackend.Configuration;
 
 
-import com.example.ecommbackend.Model.Role;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;

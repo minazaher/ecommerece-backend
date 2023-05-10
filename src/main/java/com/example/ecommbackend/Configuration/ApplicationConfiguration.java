@@ -18,21 +18,16 @@ import org.springframework.web.client.RestTemplate;
 @Configuration
 @RequiredArgsConstructor
 public class ApplicationConfiguration {
-
     private final UserRepository userRepository;
-
     @Bean
     public UserDetailsService userDetailsService() {
         return userRepository::findUserByEmail;
     }
-
     @Bean
     public RestTemplate restTemplate() {
         RestTemplateBuilder restTemplateBuilder = new RestTemplateBuilder();
         return restTemplateBuilder.build();
-
     }
-
     @Bean
     public AuthenticationProvider authenticationProvider() {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
@@ -40,12 +35,10 @@ public class ApplicationConfiguration {
         authenticationProvider.setPasswordEncoder(passwordEncoder());
         return authenticationProvider;
     }
-
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

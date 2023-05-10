@@ -13,7 +13,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +23,6 @@ public class UserService {
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final WishlistRepository wishlistRepository;
 
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
@@ -33,7 +31,6 @@ public class UserService {
             new AuthenticationResponse();
             return AuthenticationResponse.builder().token("user already exist").build();
         }
-
         user = User.builder()
                 .firstName(request.getFirstName())
                 .lastName(request.getLastName())
@@ -68,7 +65,6 @@ public class UserService {
     public boolean isPasswordValid(User user, AuthenticationRequest request) {
         boolean result = passwordEncoder.matches(request.getPassword(), user.getPassword());
         return result;
-
     }
 
 

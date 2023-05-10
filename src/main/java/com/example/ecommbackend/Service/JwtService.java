@@ -29,9 +29,6 @@ public class JwtService {
     public String generateToken(UserDetails user) {
         return generateToken(new HashMap<>(), user);
     }
-
-
-
     public boolean isTokenValid(String token, UserDetails user) {
         final String username = extractUsername(token);
         return username.equals(user.getUsername()) && !isTokenExpired(token);
@@ -71,7 +68,6 @@ public class JwtService {
                 .setExpiration(EXPIRATION_TIME)
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
-
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claim = extractAllClaims(token);
         return claimsResolver.apply(claim);

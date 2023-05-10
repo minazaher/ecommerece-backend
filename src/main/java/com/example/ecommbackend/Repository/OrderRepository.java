@@ -8,14 +8,11 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order,Long> {
-
+public interface OrderRepository extends JpaRepository<Order,Integer> {
     @Query("select o from orders o where o.orderId =:id")
-    Order findOrderById(Long id);
-
+    Order findOrderById(int id);
     @Query("SELECT o FROM orders o LEFT JOIN FETCH o.products")
     List<Order> findAllWithProducts();
-
     @Query("select o from orders o where o.userId =:id")
-    List<Order> findOrdersByUserId(Long id);
+    List<Order> findOrdersByUserId(int id);
 }

@@ -6,6 +6,7 @@ import com.example.ecommbackend.Model.Wishlist;
 import com.example.ecommbackend.Service.WishlistService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,13 +23,13 @@ public class WishlistController {
     }
 
     @PutMapping("/addProduct")
-    public Wishlist addProduct(HttpServletRequest request,
-                               @RequestParam(value = "productId", required = true) int productId) {
+    public ResponseEntity<?> addProduct(HttpServletRequest request,
+                                     @RequestParam(value = "productId", required = true) int productId) {
         return wishlistService.addProductToWishlist(request,productId);
     }
 
     @PutMapping("/deleteProduct")
-    public Wishlist deleteProduct(HttpServletRequest request,
+    public ResponseEntity<?> deleteProduct(HttpServletRequest request,
                                   @RequestParam(value = "productId", required = true) int productId) {
         return wishlistService.deleteProductFromWishlist(request, productId);
     }

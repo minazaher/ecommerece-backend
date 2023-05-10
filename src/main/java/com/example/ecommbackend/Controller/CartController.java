@@ -20,13 +20,11 @@ public class CartController {
     public ResponseEntity<Set<Product>> createCart(HttpSession session, HttpServletRequest request) {
        return cartService.createCart(session, request);
     }
-
     @PutMapping("/addProduct")
-    public ResponseEntity<Set<Product>> addProductToCart(HttpServletRequest request,
+    public ResponseEntity<?> addProductToCart(HttpServletRequest request,
                                                          @RequestParam("productId") int productId) {
         return cartService.addProductToCart(request, productId);
     }
-
     @GetMapping("/viewCart")
     public ResponseEntity<?> viewCart(HttpSession session){
         Set<Product> cart = cartService.getSessionCart(session)    ;
@@ -34,7 +32,7 @@ public class CartController {
     }
 
     @PostMapping("/confirm")
-    public ResponseEntity<String> confirmCart(HttpSession session) {
+    public ResponseEntity<?> confirmCart(HttpSession session) {
         return cartService.confirmOrder(session);
     }
 

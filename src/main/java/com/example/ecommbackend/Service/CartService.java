@@ -1,8 +1,8 @@
 package com.example.ecommbackend.Service;
 
-import com.example.ecommbackend.Model.Order;
 import com.example.ecommbackend.Model.Product;
 import com.example.ecommbackend.Model.User;
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -19,18 +19,28 @@ public class CartService {
     private final JwtService jwtService;
     private final UserService userService;
     private final OrderService orderService;
+    public String ORDER_NOT_VALID_MSG = "Order Price Must be greater than or equal to 150 EGP";
+    public String ORDER_VALID_MSG = "Order Placed!";
+    public String CART_EMPTY = "Cart is Empty";
 
     public ResponseEntity<Set<Product>> createCart(HttpSession session, HttpServletRequest request) {
         String token = jwtService.extractTokenFromHeader(request);
         String email = jwtService.extractUsername(token);
         User user = userService.findUserIfExists(email);
+
         session.setAttribute("user",user);
         session.setAttribute("cart", new HashSet<Product>());
+
         Set<Product> cart = (Set<Product>) session.getAttribute("cart");
         return ResponseEntity.ok(cart);
     }
-    public ResponseEntity<Set<Product>> addProductToCart(HttpServletRequest request, int productId) {
+    public ResponseEntity<?> addProductToCart(HttpServletRequest request, int productId) {
         HttpSession session = request.getSession();
+
+        if (session.getAttribute("user") == null){
+            return ResponseEntity.status(403).body("You have to Login First");
+        }
+
         Set<Product> cart = getSessionCart(session);
         if (cart == null) {
             cart = new HashSet<>();
@@ -41,25 +51,42 @@ public class CartService {
         return ResponseEntity.ok(cart);
     }
 
-    public ResponseEntity<String> confirmOrder(HttpSession session){
+    public ResponseEntity<?> confirmOrder(HttpSession session){
         Set<Product> cart = getSessionCart(session);
         if (cart == null || cart.isEmpty()) {
-            return ResponseEntity.ok("Cart is empty");
+            return ResponseEntity.ok(CART_EMPTY);
         }
-        clearCart(session);
-        return ResponseEntity.ok("Order Confirmed Successfully");
+        if (isCartPriceValid(cart)){
+            productService.consumeCartProducts(cart);
+            saveCartAsOrder(session);
+            clearCart(session);
+            return ResponseEntity.ok(ORDER_VALID_MSG);
+        }
+        return ResponseEntity.ok(ORDER_NOT_VALID_MSG);
     }
 
-    public Order saveCartAsOrder(HttpSession session){
+    public void saveCartAsOrder(HttpSession session){
         User user = (User) session.getAttribute("user");
         Set<Product> cart = getSessionCart(session);
-        return orderService.createOrderForUser(user.getId(), cart);
+        orderService.createOrderForUser(user.getId(), cart, getCartPrice(cart));
+    }
+
+    public boolean isCartPriceValid(Set<Product> cart){
+        int totalPrice = getCartPrice(cart);
+        return totalPrice >= 150;
+    }
+
+    public int getCartPrice(Set<Product> cart){
+        int totalPrice = 0;
+        for (Product p :cart) {
+            totalPrice += p.getPrice();
+        }
+        return totalPrice;
     }
 
     public Set<Product> getSessionCart(HttpSession session) {
         return (Set<Product>) session.getAttribute("cart");
     }
-
     public void clearCart(HttpSession session) {
         session.removeAttribute("cart");
     }

@@ -7,6 +7,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @RequiredArgsConstructor
@@ -32,14 +33,13 @@ public class ProductService {
         return productRepository.save(product);
     }
 
-    public void consumeProduct(Product product) {
-        int currentStock = product.getStock();
-        if(currentStock == 0){
-            throw new IllegalStateException("Product out of stock");
+    public void consumeCartProducts(Set<Product> cart) {
+        for (Product product : cart) {
+            product.consume();
+            productRepository.save(product);
         }
-        product.setStock(product.getStock()-1);
-        productRepository.save(product);
     }
+
     public Product getProductsById(int productId) {
         return productRepository.findProductById(productId);
     }

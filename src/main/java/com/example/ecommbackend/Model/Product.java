@@ -25,4 +25,14 @@ public class Product {
     private String brand;
     private String category;
     private String thumbnail;
+    public boolean isAvailable(){
+        return this.stock >0;
+    }
+
+    public void consume() {
+        if (this.isAvailable())
+            this.stock--;
+        else
+            throw new RuntimeException("Product is not available");
+    }
 }
